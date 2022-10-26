@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
 
@@ -8,16 +8,22 @@ const Homepage = () => {
 		yahoo: false,
 		stackoverflow: false
 	});
+	const [query, setQuery] = useState('');
+	const navigate = useNavigate();
+
+	const onQueryChange = (e) => {
+		setQuery(e.target.value);
+	}
 
 	const updateEngine = (e) => {
-		let newEngine = {...engines};
+		let newEngine = { ...engines };
 		newEngine[e.target.value] = !newEngine[e.target.value];
 		setEngines(newEngine)
 	}
 
 
 	const search = () => {
-		console.log(engines);
+		navigate('/result', {state: {query,engines}})
 	}
 
 	return (
@@ -26,7 +32,7 @@ const Homepage = () => {
 				<div className="row">
 					<h1 className="text-center">Meta Search Engine</h1>
 					<div className="col-8 m-auto mt-3">
-						<input type="text" name="" id="" className="form-control" />
+						<input type="text" value={query} onChange={onQueryChange} className="form-control" />
 					</div>
 					<div className="text-center mt-4">
 						<div className="d-inline-block mx-5 form-check">
