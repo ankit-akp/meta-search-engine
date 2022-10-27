@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Homepage = () => {
 
 	const [engines, setEngines] = useState({
-		google: true,
+		google: false,
 		yahoo: false,
 		stackoverflow: false
 	});

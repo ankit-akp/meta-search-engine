@@ -1,5 +1,5 @@
-const apiKey = "21731340a63dbffdead7e0c6043e1ab4229a421f0eda08beff460cb93ac61f57";
-const url = `https://serpapi.com/search.json?engine=google&q={query}&api_key=${apiKey}`;
+const apiKey = "5f5b49cdc282e2793b014be14c5c3aff";
+const url = `http://api.serpstack.com/search?engine=google&query={query}&access_key=${apiKey}`;
 
 
 const searchGoogle = async (query) =>{
