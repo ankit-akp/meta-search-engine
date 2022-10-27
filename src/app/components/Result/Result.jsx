@@ -1,11 +1,17 @@
 import React, {useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import searchGoogle from "../../services/googleSearch";
+import tp from "../../apiResults/google.json"
+import Card from "./Card";
 
 const Result = () => {
 
     const {state} = useLocation();
-    const [result, setResult] = useState({})
+    const [result, setResult] = useState([])
+
+    
+    
+    
 
     useEffect(() => {
         const {engines} = state;
@@ -15,11 +21,28 @@ const Result = () => {
     },[state]);
 
     const test = async () => {
-        setResult(await searchGoogle(state.query));
+        setResult(tp.organic_results);
+        
     }
 
+    
+    
+    
+
+    console.log(result)
     return (<div>
-        <pre>{JSON.stringify(result)}</pre>
+        {result.map((ele)=>
+            
+                
+            <Card/>
+                    
+
+                
+
+            
+            
+            
+            )}
     </div>)
 }
 
