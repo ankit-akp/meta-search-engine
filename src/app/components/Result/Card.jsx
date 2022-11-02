@@ -2,14 +2,14 @@ import React from "react";
 import "./card.css";
 
 function Card(props) {
-  const { title, url } = props.res;
+  const { title, url, text } = props.res;
   return (
     <div className='card_list'>
-      <h1 className='heading'>{title}</h1>
-      <a href={url}>
-        <h2 className='heading2'>{url}</h2>
+      <a className="text-decoration-none" href={url}>
+        <span className='text-muted small'>{url}</span>
+        <div className='mb-2'>{title}</div>
       </a>
-      <p></p>
+      <div className='text-muted small'>{text}</div>
     </div>
   );
 }

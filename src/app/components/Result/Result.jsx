@@ -1,50 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import searchGoogle from "../../services/googleSearch";
-import tp from "../../apiResults/google.json"
 import Card from "./Card";
-
-
 
 const Result = () => {
 
-    const {state} = useLocation();
-    const [result, setResult] = useState({organic_results:[]})
-
-    
-    
-    
+    const { state } = useLocation();
+    const [result, setResult] = useState({ results: [] })
 
     useEffect(() => {
-        const {engines} = state;
-        if(engines?.google){
+        const { engines } = state;
+        if (engines?.google) {
             test();
         }
-    },[state]);
+    }, [state]);
 
     const test = async () => {
         setResult(await searchGoogle(state.query));
-        
     }
-
-    
-    
-    
 
     console.log(result)
     return (<div className="result">
-        {result.organic_results.map((ele)=>
-            
-                
-            <Card res={ele}/>
-                    
-
-                
-
-            
-            
-            
-            )}
+        {result.results.map((ele) =>
+            <Card res={ele} />
+        )}
     </div>)
 }
 
