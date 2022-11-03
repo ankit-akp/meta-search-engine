@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import searchGoogle from "../../services/googleSearch";
-import Card from "./Card";
+import searchWeb from "../../services/searchWeb";
+import Accordian from "./Accordian";
 
 const Result = () => {
 
     const { state } = useLocation();
-    const [result, setResult] = useState({ results: [] })
+    const [result, setResult] = useState({})
 
     useEffect(() => {
-        const { engines } = state;
-        if (engines?.google) {
-            test();
-        }
-    }, [state]);
+        fetchResults();
+    }, []);
 
-    const test = async () => {
-        setResult(await searchGoogle(state.query));
+    const fetchResults = async () => {
+        const { engines } = state;
+        let newResult = {}
+        if (engines?.google) newResult.google = await googleResult();
+        if (engines?.yahoo) newResult.yahoo = await yahooResult();
+        setResult(newResult);
     }
 
-    console.log(result)
-    return (<div className="result">
-        {result.results.map((ele) =>
-            <Card res={ele} />
-        )}
-    </div>)
+    const googleResult = async () => (await searchWeb.google(state.query)).results
+    const yahooResult = async () => (await searchWeb.yahoo(state.query)).results
+
+    return (
+        <div className="container">
+            {
+                Object.keys(result).map((engine, key) => <Accordian key={key} page={engine} results={result[engine]} />)
+            }
+        </div>
+    )
 }
 
 export default Result;
