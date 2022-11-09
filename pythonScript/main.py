@@ -6,7 +6,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 
-driver = webdriver.Firefox()
+driver = webdriver.Chrome()
 driver.minimize_window()
 
 @app.route('/search/google/<string:query>')
@@ -30,6 +30,10 @@ def googleSearc(query):
             text = result.find_element(By.CSS_SELECTOR, css_identifier_text)
         except: 
             text = None
+
+        if title.text=='':
+            continue
+
         data.append({
             'title': title.text, 
             'url': url.get_attribute('href'), 
@@ -70,7 +74,7 @@ def yahooSearc(query):
     return jsonify({"results":data})
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug=True)
 
 driver.quit()
 
