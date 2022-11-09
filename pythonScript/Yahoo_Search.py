@@ -15,7 +15,6 @@ def yahooSearch(query,driver):
     results = driver.find_elements(By.CSS_SELECTOR, css_identifier_result)
 
     for result in results:
-        result._execute
         title = result.find_element(By.CSS_SELECTOR, css_identifier_title)
         extraTitle = result.find_element(By.CSS_SELECTOR, css_identifier_extra_title)
         url = result.find_element(By.CSS_SELECTOR, css_identifier_link)
