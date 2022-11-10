@@ -8,7 +8,7 @@ import Stackoverflow_Search as stackoverflow
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 
-driver = webdriver.Firefox()
+driver = webdriver.Chrome()
 driver.minimize_window()
 
 
