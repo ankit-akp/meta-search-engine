@@ -2,6 +2,7 @@ import React from "react";
 import "./card.css";
 
 function Card(props) {
+  
   const { title, url, text } = props.res;
   return (
     <div className='card_list'>
