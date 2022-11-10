@@ -6,7 +6,8 @@ const Homepage = () => {
 	const [engines, setEngines] = useState({
 		google: false,
 		yahoo: false,
-		stackoverflow: false
+		stackoverflow: false,
+		scholar: false
 	});
 	const [query, setQuery] = useState('');
 	const navigate = useNavigate();
@@ -46,6 +47,10 @@ const Homepage = () => {
 						<div className="d-inline-block mx-5 form-check">
 							<input className="form-check-input" type="checkbox" checked={engines.stackoverflow} onChange={updateEngine} value="stackoverflow" id="stackoverflow" />
 							<label className="form-check-label" htmlFor="stackoverflow">Stackoverflow</label>
+						</div>
+						<div className="d-inline-block mx-5 form-check">
+							<input className="form-check-input" type="checkbox" checked={engines.scholar} onChange={updateEngine} value="scholar" id="scholar" />
+							<label className="form-check-label" htmlFor="scholar">Google Scholar</label>
 						</div>
 					</div>
 					<div className="col-12 text-center mx-auto mt-5">

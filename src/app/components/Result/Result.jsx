@@ -18,8 +18,8 @@ const Result = () => {
 
     if (engines?.google) newResult.google = await googleResult();
     if (engines?.yahoo) newResult.yahoo = await yahooResult();
-    if (engines?.stackoverflow)
-      newResult.stackoverflow = await stackoverflowResult();
+    if (engines?.stackoverflow) newResult.stackoverflow = await stackoverflowResult();
+    if (engines?.scholar) newResult.scholar = await scholarResult();
     setResult(newResult);
 
     let comm = {};
@@ -42,11 +42,10 @@ const Result = () => {
     setCommonResult(sorted);
   };
 
-  const googleResult = async () =>
-    (await searchWeb.google(state.query)).results;
+  const googleResult = async () => (await searchWeb.google(state.query)).results;
   const yahooResult = async () => (await searchWeb.yahoo(state.query)).results;
-  const stackoverflowResult = async () =>
-    (await searchWeb.stackoverflow(state.query)).results;
+  const stackoverflowResult = async () => (await searchWeb.stackoverflow(state.query)).results;
+  const scholarResult = async () => (await searchWeb.scholar(state.query)).results;
 
   return (
     <div className="container">

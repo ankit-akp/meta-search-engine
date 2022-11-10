@@ -5,23 +5,23 @@ function Card(props) {
   let title, url, text, freq;
   if (Array.isArray(props.res)) {
     freq = props.res[0];
-    title = props.res[1].title;
-    url = props.res[1].url;
-    text = props.res[1].text;
+    ({title, url, text} = props.res[1]);
   } else {
-    title = props.res.title;
-    url = props.res.url;
-    text = props.res.text;
+    ({title, url, text} = props.res);
   }
 
   return (
-    <div className="card_list">
-      <a className="text-decoration-none" href={url}>
-        <span className="text-muted small">{url}</span>
-        <div className="mb-2">{title}</div>
-      </a>
-      <div className="text-muted small">{text}</div>
-    </div>
+    <>
+      <div className="card border-0">
+        <div className="card-body">
+          <a className="text-decoration-none" href={url}>
+            <div style={{textOverflow: 'ellipsis'}} className="text-muted small text-nowrap overflow-hidden">{url}</div>
+            <div className="mb-2">{title} {!!!freq ? '' : `- [${freq}]`}</div>
+          </a>
+          <div className="text-muted small">{text}</div>
+        </div>
+      </div>
+    </>
   );
 }
 
