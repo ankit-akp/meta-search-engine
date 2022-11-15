@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import searchWeb from "../../services/searchWeb";
 import Accordian from "./Accordian";
+import HashLoader from "react-spinners/HashLoader";
+
 
 const Result = () => {
   const { state } = useLocation();
@@ -49,14 +51,31 @@ const Result = () => {
 
   return (
     <div className="container">
-      {commonResult.length !== 0 && (
+      {commonResult.length !== 0 ? (
         <Accordian key={"common"} page={"common"} results={commonResult} />
-      )}
+      ):  
+      <div style={{textAlign:"center", display:"flex", justifyContent:"center", marginTop:"300px", }}>
+      <HashLoader
+      color="#6c757d"
+      loading="true"
+      size={80}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+     
+      
+    />
+
+    </div>
+    
+  }
+
+  
       {Object.keys(result).map((engine, key) => (
         <Accordian key={key} page={engine} results={result[engine]} />
       ))}
-    </div>
+      </div>
   );
+  
 };
 
 export default Result;
