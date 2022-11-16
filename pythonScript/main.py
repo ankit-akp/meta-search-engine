@@ -5,6 +5,10 @@ import Google_Search as google
 import Yahoo_Search as yahoo
 import Scholar_Search as scholar
 import Stackoverflow_Search as stackoverflow
+import GoogleNews_search as googlenews
+
+
+
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 
@@ -39,6 +43,11 @@ def scholarSearch(query):
 def stackoverflowSearch(query):
     return stackoverflow.stackoverflowSearch(query)
 
+# Google News
+@app.route('/search/googlenews/<string:query>')
+@cross_origin(supports_credentials = True)
+def googlenewsSearch(query):
+    return googlenews.googlenewsSearch(query,driver)
 
 if __name__ == "__main__":
     app.run()
@@ -49,6 +58,5 @@ driver.quit()
 # Kill process: kill -9 PID
 
 # Pending
-# Google news
 # Science.gov
 # pubmed
