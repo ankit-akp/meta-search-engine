@@ -6,7 +6,7 @@ import Yahoo_Search as yahoo
 import Scholar_Search as scholar
 import Stackoverflow_Search as stackoverflow
 import GoogleNews_search as googlenews
-
+import GoogleBooks_search as googlebooks
 
 
 app = Flask(__name__)
@@ -48,6 +48,13 @@ def stackoverflowSearch(query):
 @cross_origin(supports_credentials = True)
 def googlenewsSearch(query):
     return googlenews.googlenewsSearch(query,driver)
+
+# Google Books
+@app.route('/search/googlebooks/<string:query>')
+@cross_origin(supports_credentials = True)
+def googlebooksSearch(query):
+    return googlebooks.googleBooksSearch(query,driver)
+
 
 if __name__ == "__main__":
     app.run()
