@@ -1,81 +1,101 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import searchWeb from "../../services/searchWeb";
-import Accordian from "./Accordian";
 import HashLoader from "react-spinners/HashLoader";
+import NavTabs from "./NavTabs";
+import ResultSection from "./ResultSection";
 
 
 const Result = () => {
-  const { state } = useLocation();
-  const [result, setResult] = useState({});
-  const [commonResult, setCommonResult] = useState([]);
+	const { state } = useLocation();
+	const [result, setResult] = useState({});
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchResults();
-  }, []);
+	useEffect(() => {
+		setCommonResult();
+	}, []);
 
-  const fetchResults = async () => {
-    const { engines } = state;
-    let newResult = {};
+	const googleResult = async () => await searchWeb.google(state.query);
+	const yahooResult = async () => await searchWeb.yahoo(state.query);
+	const stackoverflowResult = async () => await searchWeb.stackoverflow(state.query);
+	const scholarResult = async () => await searchWeb.scholar(state.query);
 
-    if (engines?.google) newResult.google = await googleResult();
-    if (engines?.yahoo) newResult.yahoo = await yahooResult();
-    if (engines?.stackoverflow) newResult.stackoverflow = await stackoverflowResult();
-    if (engines?.scholar) newResult.scholar = await scholarResult();
-    setResult(newResult);
 
-    let comm = {};
+	const fetchResults = async () => {
+		const { engines } = state;
+		let results = {};
+		let arr = [];
+		if (engines?.stackoverflow) arr.push(stackoverflowResult());
+		if (engines?.scholar) arr.push(scholarResult());
+		if (engines?.yahoo) arr.push(yahooResult());
+		if (engines?.google) arr.push(googleResult());
 
-    Object.keys(newResult).map((common) => {
-      newResult[common].map((a) => {
-        if (!(a.url in comm)) comm[a.url] = [1, a];
-        else comm[a.url][0]++;
-      });
-    });
+		await Promise.all(arr).then((res)=>{
+			res.forEach((ele) => results[ele.engine] = ele.results);
+		})
+		return results;
+	};
 
-    const sorted = [];
 
-    for (var c in comm) {
-      if (comm[c][0] !== 1) sorted.push([comm[c][0], comm[c][1]]);
-    }
+	const setCommonResult = async () => {
+		let newResult = await fetchResults();
+		console.log(newResult);
+		let urlFreq = {};
 
-    sorted.sort((a, b) => b[0] - a[0]);
+		Object.keys(newResult).forEach((res) => {
+			newResult[res].forEach((ele) => {
+				if (!(ele.url in urlFreq))
+					urlFreq[ele.url] = [1, ele];
+				else
+					urlFreq[ele.url][0]++;
+			});
+		});
 
-    setCommonResult(sorted);
-  };
+		let commonResult = [];
 
-  const googleResult = async () => (await searchWeb.google(state.query)).results;
-  const yahooResult = async () => (await searchWeb.yahoo(state.query)).results;
-  const stackoverflowResult = async () => (await searchWeb.stackoverflow(state.query)).results;
-  const scholarResult = async () => (await searchWeb.scholar(state.query)).results;
+		for (var url in urlFreq)
+			if (urlFreq[url][0] !== 1) {
+				commonResult.push([urlFreq[url][0], {...urlFreq[url][1]}]);
+			}
+		commonResult.sort((a, b) => b[0] - a[0]);
+		commonResult = commonResult.map((res) => {
+			res[1].title += ` - [${res[0]}]`;
+			return res[1];
+		})
 
-  return (
-    <div className="container">
-      {commonResult.length !== 0 ? (
-        <Accordian key={"common"} page={"common"} results={commonResult} />
-      ):  
-      <div style={{textAlign:"center", display:"flex", justifyContent:"center", marginTop:"300px", }}>
-      <HashLoader
-      color="#6c757d"
-      loading="true"
-      size={80}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-     
-      
-    />
+		if (commonResult.length > 0)
+			setResult({ Common: commonResult, ...newResult });
+		else
+			setResult(newResult);
+		setLoading(false);
+	}
 
-    </div>
-    
-  }
+	return (
+		<>
+			{loading ?
+				(
+					<div className="vh-100 bg-light d-flex">
+						<div className="m-auto">
+							<HashLoader
+								color="#6c757d"
+								loading="true"
+								size={80}
+								aria-label="Loading Spinner"
+								data-testid="loader"
+							/>
+						</div>
+					</div>
+				) : <></>
+			}
+			<div className="container">
+				<NavTabs tabs={Object.keys(result)}></NavTabs>
+				{Object.keys(result).map((engine, key) => (
+					<ResultSection engine={engine} result={result[engine]} key={key} />
+				))}
+			</div>
+		</>
+	);
 
-  
-      {Object.keys(result).map((engine, key) => (
-        <Accordian key={key} page={engine} results={result[engine]} />
-      ))}
-      </div>
-  );
-  
 };
 
 export default Result;

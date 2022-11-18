@@ -16,4 +16,4 @@ def googlenewsSearch(query,driver):
         
         data.append({'url':url, 'title':title,'text':text})
 
-    return jsonify({"results":data})
+    return jsonify({"results":data, "engine": "googleNews"})

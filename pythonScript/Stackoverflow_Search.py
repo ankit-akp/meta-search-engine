@@ -11,4 +11,4 @@ def stackoverflowSearch(query):
     for i in data:
         results.append({'url':i['link'],'title':re.sub("&.{3};|&.{4};","",i['title']),'text':re.sub("&.{3};|&.{4};","",' '.join(i['tags']))})
     
-    return jsonify({'results':results})
+    return jsonify({'results':results, "engine": "stackoverflow"})

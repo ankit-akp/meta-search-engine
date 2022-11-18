@@ -12,29 +12,37 @@ import GoogleBooks_search as googlebooks
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 driver.minimize_window()
+driver1 = webdriver.Firefox()
+driver1.minimize_window()
+driver2 = webdriver.Firefox()
+driver2.minimize_window()
+driver3 = webdriver.Firefox()
+driver3.minimize_window()
+driver4 = webdriver.Firefox()
+driver4.minimize_window()
 
 
 # Google
 @app.route('/search/google/<string:query>')
 @cross_origin(supports_credentials = True)
 def googleSearch(query):
-   return google.googleSearch(query,driver)
+   return google.googleSearch(query,driver1)
 
 
 # Yahoo 
 @app.route('/search/yahoo/<string:query>')
 @cross_origin(supports_credentials = True)
 def yahooSearch(query):
-    return yahoo.yahooSearch(query,driver)
+    return yahoo.yahooSearch(query,driver2)
     
 
 # Google Scholar
 @app.route('/search/scholar/<string:query>')
 @cross_origin(supports_credentials = True)
 def scholarSearch(query):
-    return scholar.scholarSearch(query,driver)
+    return scholar.scholarSearch(query,driver3)
 
 
 # Stackoverflow

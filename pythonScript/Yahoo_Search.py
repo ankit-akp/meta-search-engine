@@ -26,4 +26,4 @@ def yahooSearch(query,driver):
             'text': text.text
         })
 
-    return jsonify({"results":data})
+    return jsonify({"results":data, "engine": "yahoo"})
