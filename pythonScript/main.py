@@ -52,13 +52,13 @@ def stackoverflowSearch(query):
     return stackoverflow.stackoverflowSearch(query)
 
 # Google News
-@app.route('/search/googlenews/<string:query>')
+@app.route('/search/news/<string:query>')
 @cross_origin(supports_credentials = True)
 def googlenewsSearch(query):
     return googlenews.googlenewsSearch(query,driver4)
 
 # Google Books
-@app.route('/search/googlebooks/<string:query>')
+@app.route('/search/books/<string:query>')
 @cross_origin(supports_credentials = True)
 def googlebooksSearch(query):
     return googlebooks.googleBooksSearch(query,driver)
