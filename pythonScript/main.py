@@ -7,20 +7,20 @@ import Scholar_Search as scholar
 import Stackoverflow_Search as stackoverflow
 import GoogleNews_search as googlenews
 import GoogleBooks_search as googlebooks
-
+import Pubmed_Search as  pubmed
 
 app = Flask(__name__)
 CORS(app, support_credentials = True)
 
-driver = webdriver.Firefox()
+driver = webdriver.Chrome()
 driver.minimize_window()
-driver1 = webdriver.Firefox()
+driver1 = webdriver.Chrome()
 driver1.minimize_window()
-driver2 = webdriver.Firefox()
+driver2 = webdriver.Chrome()
 driver2.minimize_window()
-driver3 = webdriver.Firefox()
+driver3 = webdriver.Chrome()
 driver3.minimize_window()
-driver4 = webdriver.Firefox()
+driver4 = webdriver.Chrome()
 driver4.minimize_window()
 
 
@@ -55,13 +55,20 @@ def stackoverflowSearch(query):
 @app.route('/search/googlenews/<string:query>')
 @cross_origin(supports_credentials = True)
 def googlenewsSearch(query):
-    return googlenews.googlenewsSearch(query,driver)
+    return googlenews.googlenewsSearch(query,driver4)
 
 # Google Books
 @app.route('/search/googlebooks/<string:query>')
 @cross_origin(supports_credentials = True)
 def googlebooksSearch(query):
     return googlebooks.googleBooksSearch(query,driver)
+
+
+# Pubmed
+@app.route('/search/pubmed/<string:query>')
+@cross_origin(supports_credentials = True)
+def pubmedSearch(query):
+    return pubmed.PubmedSearch(query)
 
 
 if __name__ == "__main__":
