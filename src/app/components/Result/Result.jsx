@@ -15,7 +15,7 @@ const Result = () => {
     google: false,
     yahoo: false,
     stackoverflow: false,
-    googlescholar: false,
+    scholar: false,
     pubmed: false,
     books: false,
     news: false,

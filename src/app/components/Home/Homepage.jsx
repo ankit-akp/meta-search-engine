@@ -57,15 +57,15 @@ const Homepage = () => {
 						</div>
 						<div className="d-inline-block mx-5 form-check">
 							<input className="form-check-input" type="checkbox" checked={engines.pubmed} onChange={updateEngine} value="pubmed" id="pubmed" />
-							<label className="form-check-label" htmlFor="scholar">Pubmed</label>
+							<label className="form-check-label" htmlFor="pubmed">Pubmed</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
 							<input className="form-check-input" type="checkbox" checked={engines.books} onChange={updateEngine} value="books" id="books" />
-							<label className="form-check-label" htmlFor="scholar">Google Books</label>
+							<label className="form-check-label" htmlFor="books">Google Books</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
 							<input className="form-check-input" type="checkbox" checked={engines.news} onChange={updateEngine} value="news" id="news" />
-							<label className="form-check-label" htmlFor="scholar">Google News</label>
+							<label className="form-check-label" htmlFor="news">Google News</label>
 						</div>
 					</div>
 					<div className="col-12 text-center mx-auto mt-5">

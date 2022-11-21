@@ -22,7 +22,8 @@ export default function NavTabs(props) {
           <li key={key} className="nav-item">
             <span
               onClick={() => tabsearching(tab)}
-              className="nav-link active"
+              className={'nav-link ' + (searchtab[tab] ? 'active' : '')}
+              style={{'cursor':'pointer'}}
               aria-current="page"
             >
               {tab}
