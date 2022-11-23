@@ -17,13 +17,14 @@ export default function NavTabs(props) {
 
   return (
     <div>
-      <ul className="nav nav-tabs">
+      <ul className="nav nav-tabs bg-secondary rounded-top">
         {props.tabs.map((tab, key) => (
           <li key={key} className="nav-item">
             <span
               onClick={() => tabsearching(tab)}
-              className={'nav-link ' + (searchtab[tab] ? 'active' : '')}
-              style={{'cursor':'pointer'}}
+              className={`nav-link ${searchtab[tab] ? 'active text-secondary' : ''}`}
+              style={{'cursor':'pointer', 'color':'#fff'}}
+              
               aria-current="page"
             >
               {tab}

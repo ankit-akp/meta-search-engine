@@ -27,12 +27,11 @@ const Result = () => {
 
   const googleResult = async () => await searchWeb.google(state.query);
   const yahooResult = async () => await searchWeb.yahoo(state.query);
-  const stackoverflowResult = async () =>
-    await searchWeb.stackoverflow(state.query);
+  const stackoverflowResult = async () => await searchWeb.stackoverflow(state.query);
   const scholarResult = async () => await searchWeb.scholar(state.query);
-  const pubmedResult = async()=>await searchWeb.pubmed(state.query);
-  const booksResult = async()=>await searchWeb.books(state.query);
-  const newsResult = async()=>await searchWeb.news(state.query);
+  const pubmedResult = async() => await searchWeb.pubmed(state.query);
+  const booksResult = async() => await searchWeb.books(state.query);
+  const newsResult = async() => await searchWeb.news(state.query);
 
   const fetchResults = async () => {
     const { engines } = state;
@@ -40,11 +39,11 @@ const Result = () => {
     let arr = [];
     if (engines?.stackoverflow) arr.push(stackoverflowResult());
     if (engines?.scholar) arr.push(scholarResult());
-    if (engines?.yahoo) arr.push(yahooResult());
-    if (engines?.google) arr.push(googleResult());
     if (engines?.pubmed) arr.push(pubmedResult());
     if (engines?.books) arr.push(booksResult());
     if (engines?.news) arr.push(newsResult());
+    if (engines?.google) arr.push(googleResult());
+    if (engines?.yahoo) arr.push(yahooResult());
 
     await Promise.all(arr).then((res) => {
       res.forEach((ele) => (results[ele.engine] = ele.results));
@@ -101,18 +100,20 @@ const Result = () => {
       )}
 
       <SearchContext.Provider value={{ searchtab, setSearchtab }}>
-        <div className="container">
-          <NavTabs tabs={Object.keys(result)}></NavTabs>
-          {Object.keys(result).map(
-            (engine, key) =>
-              searchtab[engine] === true && (
-                <ResultSection
-                  engine={engine}
-                  result={result[engine]}
-                  key={key}
-                />
-              )
-          )}
+        <div className="bg-light min-vh-100">
+          <div className="container">
+            <NavTabs tabs={Object.keys(result)}></NavTabs>
+            {Object.keys(result).map(
+              (engine, key) =>
+                searchtab[engine] === true && (
+                  <ResultSection
+                    engine={engine}
+                    result={result[engine]}
+                    key={key}
+                  />
+                )
+            )}
+          </div>
         </div>
       </SearchContext.Provider>
     </>

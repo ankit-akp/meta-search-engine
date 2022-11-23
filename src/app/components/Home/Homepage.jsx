@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
 
-	const [engines, setEngines] = useState({
-		google: false,
-		yahoo: false,
-		stackoverflow: false,
-		scholar: false,
-		pubmed:false,
-		books:false,
-		news:false
+	const [categories, setCategories] = useState({
+		programming: false,
+		research: false,
+		medical: false,
+		books: false,
+		news: false
 	});
 	const [query, setQuery] = useState('');
 	const navigate = useNavigate();
@@ -19,14 +17,30 @@ const Homepage = () => {
 		setQuery(e.target.value);
 	}
 
-	const updateEngine = (e) => {
-		let newEngine = { ...engines };
-		newEngine[e.target.value] = !newEngine[e.target.value];
-		setEngines(newEngine)
+	const updateCategory = (e) => {
+		let newCategory = { ...categories };
+		newCategory[e.target.value] = !newCategory[e.target.value];
+		setCategories(newCategory)
 	}
 
 
 	const search = () => {
+		if(query === '')
+			return;
+		const engines = {
+			google: true,
+			yahoo: true,
+			stackoverflow: false,
+			scholar: false,
+			pubmed:false,
+			books:false,
+			news:false
+		}
+		if(categories.programming) engines.stackoverflow = true;
+		if(categories.research) engines.scholar = true;
+		if(categories.medical) engines.pubmed = true;
+		if(categories.books) engines.books = true;
+		if(categories.news) engines.news = true;
 		navigate('/result', {state: {query,engines}})
 	}
 
@@ -40,32 +54,24 @@ const Homepage = () => {
 					</div>
 					<div className="text-center mt-4">
 						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.google} onChange={updateEngine} value="google" id="google" />
-							<label className="form-check-label" htmlFor="google">Google</label>
+							<input className="form-check-input" type="checkbox" checked={categories.programming} onChange={updateCategory} value="programming" id="programming" />
+							<label className="form-check-label" htmlFor="programming">Programming</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.yahoo} onChange={updateEngine} value="yahoo" id="yahoo" />
-							<label className="form-check-label" htmlFor="yahoo">Yahoo</label>
+							<input className="form-check-input" type="checkbox" checked={categories.research} onChange={updateCategory} value="research" id="research" />
+							<label className="form-check-label" htmlFor="research">Research</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.stackoverflow} onChange={updateEngine} value="stackoverflow" id="stackoverflow" />
-							<label className="form-check-label" htmlFor="stackoverflow">Stackoverflow</label>
+							<input className="form-check-input" type="checkbox" checked={categories.medical} onChange={updateCategory} value="medical" id="medical" />
+							<label className="form-check-label" htmlFor="medical">Medical</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.scholar} onChange={updateEngine} value="scholar" id="scholar" />
-							<label className="form-check-label" htmlFor="scholar">Google Scholar</label>
+							<input className="form-check-input" type="checkbox" checked={categories.books} onChange={updateCategory} value="books" id="books" />
+							<label className="form-check-label" htmlFor="books">Books</label>
 						</div>
 						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.pubmed} onChange={updateEngine} value="pubmed" id="pubmed" />
-							<label className="form-check-label" htmlFor="pubmed">Pubmed</label>
-						</div>
-						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.books} onChange={updateEngine} value="books" id="books" />
-							<label className="form-check-label" htmlFor="books">Google Books</label>
-						</div>
-						<div className="d-inline-block mx-5 form-check">
-							<input className="form-check-input" type="checkbox" checked={engines.news} onChange={updateEngine} value="news" id="news" />
-							<label className="form-check-label" htmlFor="news">Google News</label>
+							<input className="form-check-input" type="checkbox" checked={categories.news} onChange={updateCategory} value="news" id="news" />
+							<label className="form-check-label" htmlFor="news">News</label>
 						</div>
 					</div>
 					<div className="col-12 text-center mx-auto mt-5">
