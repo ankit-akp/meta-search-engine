@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 import requests as req
 import re
 from flask import jsonify
@@ -9,6 +10,16 @@ def stackoverflowSearch(query):
     results=[]
     data=res.json()['items']
     for i in data:
-        results.append({'url':i['link'],'title':re.sub("&.{3};|&.{4};","",i['title']),'text':re.sub("&.{3};|&.{4};","",' '.join(i['tags']))})
-    
-    return jsonify({'results':results, "engine": "stackoverflow","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+            
+        ## Keyword count
+        words=query.split()
+        wordcount={}
+        for w in words:
+            wordcount[w]=0
+
+        res=req.get(i['link'])
+        for w in words:
+            wordcount[w]+=res.text.count(w)
+        results.append({'url':i['link'],'title':re.sub("&.{3};|&.{4};","",i['title']),'text':re.sub("&.{3};|&.{4};","",' '.join(i['tags'])),"wordcount":wordcount})
+ 
+    return jsonify({'results':results, "engine": "stackoverflow"})

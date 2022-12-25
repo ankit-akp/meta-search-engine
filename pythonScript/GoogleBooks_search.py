@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from flask import jsonify
+from bs4 import BeautifulSoup
+import requests as req
 
 def googleBooksSearch(query,driver):
     
@@ -25,11 +27,20 @@ def googleBooksSearch(query,driver):
             
         urlElm = result.find_element(By.CSS_SELECTOR, css_identifier_link)
         url = urlElm.get_attribute('href')
+        ## Keyword count
+        words=query.split()
+        wordcount={}
+        for i in words:
+            wordcount[i]=0
 
+        res=req.get(url)
+        for w in words:
+            wordcount[w]+=res.text.count(w)
         data.append({
             'title': title, 
             'url': url, 
-            'text':'' if text is None else text.text
+            'text':'' if text is None else text.text,
+            'wordcount':wordcount
         })
 
-    return jsonify({"results":data, "engine": "books","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+    return jsonify({"results":data, "engine": "books"})

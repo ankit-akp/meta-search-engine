@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from flask import jsonify
+from bs4 import BeautifulSoup
+import requests as req
 
 def scholarSearch(query,driver):
     
@@ -23,11 +25,20 @@ def scholarSearch(query,driver):
 
         if title.text=='':
             continue
+        ## Keyword count
+        words=query.split()
+        wordcount={}
+        for i in words:
+            wordcount[i]=0
 
+        res=req.get(url.get_attribute('href'))
+        for w in words:
+            wordcount[w]+=res.text.count(w)
         data.append({
             'title': title.text, 
             'url': url.get_attribute('href'), 
-            'text': '' if text is None else text.text
+            'text': '' if text is None else text.text,
+            'wordcount':wordcount
         })
 
-    return jsonify({"results":data, "engine": "scholar","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+    return jsonify({"results":data, "engine": "scholar"})

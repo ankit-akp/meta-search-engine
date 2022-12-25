@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
 from flask import jsonify
 from bs4 import BeautifulSoup
+import requests as req
+
 def googlenewsSearch(query,driver):
     
     driver.get(f'https://news.google.com/search?q={query}')
@@ -13,7 +15,18 @@ def googlenewsSearch(query,driver):
         title=i.get_text()
         url=base+i.a.get('href')[1:]
         text=i.next_sibling.div.a.string+' : '+i.next_sibling.div.time.string
-        
-        data.append({'url':url, 'title':title,'text':text})
+       
+        ## Keyword count
+        words=query.split()
+        wordcount={}
+        for w in words:
+            wordcount[w]=0
 
-    return jsonify({"results":data, "engine": "news","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+        res=req.get(url)
+        for w in words:
+            wordcount[w]+=res.text.count(w)
+
+        data.append({'url':url, 'title':title,'text':text,'wordcount':wordcount})
+
+
+    return jsonify({"results":data, "engine": "news"})

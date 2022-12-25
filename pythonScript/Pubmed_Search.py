@@ -20,5 +20,16 @@ def PubmedSearch(query):
             pmid=i.select('.docsum-pmid')[0].string
 
             text=f'author: {author.strip()}, citation: {citation}, PMID: {pmid}'
-            results.append({'url':url,'title':title,'text':text})
-    return jsonify({'results':results, "engine": "pubmed","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+            
+            ## Keyword count
+            words=query.split()
+            wordcount={}
+            for w in words:
+                wordcount[w]=0
+
+            res=req.get(url)
+            for w in words:
+                wordcount[w]+=res.text.count(w)
+            results.append({'url':url,'title':title,'text':text,'wordcount':wordcount})
+
+    return jsonify({'results':results, "engine": "pubmed"})

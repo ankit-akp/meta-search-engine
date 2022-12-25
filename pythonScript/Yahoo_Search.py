@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from flask import jsonify
+from bs4 import BeautifulSoup
+import requests as req
 
 def yahooSearch(query,driver):
     
@@ -19,11 +21,20 @@ def yahooSearch(query,driver):
         extraTitle = result.find_element(By.CSS_SELECTOR, css_identifier_extra_title)
         url = result.find_element(By.CSS_SELECTOR, css_identifier_link)
         text = result.find_element(By.CSS_SELECTOR, css_identifier_text)
-        
+        ## Keyword count
+        words=query.split()
+        wordcount={}
+        for i in words:
+            wordcount[i]=0
+
+        res=req.get(url.get_attribute('href'))
+        for w in words:
+            wordcount[w]+=res.text.count(w)       
         data.append({
             'title': title.text.replace(extraTitle.text, '').replace('\n',''), 
             'url': url.get_attribute('href'), 
-            'text': text.text
+            'text': text.text,
+            'wordcount':wordcount
         })
 
-    return jsonify({"results":data, "engine": "yahoo","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
+    return jsonify({"results":data, "engine": "yahoo"})
