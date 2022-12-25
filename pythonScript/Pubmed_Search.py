@@ -21,4 +21,4 @@ def PubmedSearch(query):
 
             text=f'author: {author.strip()}, citation: {citation}, PMID: {pmid}'
             results.append({'url':url,'title':title,'text':text})
-    return jsonify({'results':results, "engine": "pubmed"})
+    return jsonify({'results':results, "engine": "pubmed","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})

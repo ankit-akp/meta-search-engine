@@ -30,4 +30,4 @@ def googleSearch(query,driver):
             'text': '' if text is None else text.text
         })
 
-    return jsonify({"results":data, "engine": "google"})
+    return jsonify({"results":data, "engine": "google","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})

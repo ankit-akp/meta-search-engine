@@ -26,4 +26,4 @@ def yahooSearch(query,driver):
             'text': text.text
         })
 
-    return jsonify({"results":data, "engine": "yahoo"})
+    return jsonify({"results":data, "engine": "yahoo","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})

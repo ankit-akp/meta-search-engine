@@ -32,4 +32,4 @@ def googleBooksSearch(query,driver):
             'text':'' if text is None else text.text
         })
 
-    return jsonify({"results":data, "engine": "books"})
+    return jsonify({"results":data, "engine": "books","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})

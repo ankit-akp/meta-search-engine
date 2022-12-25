@@ -16,4 +16,4 @@ def googlenewsSearch(query,driver):
         
         data.append({'url':url, 'title':title,'text':text})
 
-    return jsonify({"results":data, "engine": "news"})
+    return jsonify({"results":data, "engine": "news","wordcount":{"abc":1,"def":2,"ghi":3,"jkl":4}})
