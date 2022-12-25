@@ -34,7 +34,7 @@ def googleBooksSearch(query,driver):
         for i in words:
             wordcount[i]=0
 
-        res=req.get(url)
+        res=req.get(url,verify=False)
         for w in words:
             wordcount[w]+=res.text.count(w)
             total+=res.text.count(w)

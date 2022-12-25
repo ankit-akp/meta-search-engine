@@ -27,11 +27,14 @@ def yahooSearch(query,driver):
         total=0
         for i in words:
             wordcount[i]=0
+        try:
 
-        res=req.get(url.get_attribute('href'))
-        for w in words:
-            wordcount[w]+=res.text.count(w) 
-            total+=res.text.count(w)      
+            res=req.get(url.get_attribute('href'),verify=False)
+            for w in words:
+                wordcount[w]+=res.text.count(w) 
+                total+=res.text.count(w) 
+        except:
+            print(url.get_attribute('href'))     
         data.append({
             'title': title.text.replace(extraTitle.text, '').replace('\n',''), 
             'url': url.get_attribute('href'), 

@@ -30,11 +30,13 @@ def googleSearch(query,driver):
         total=0
         for i in words:
             wordcount[i]=0
-
-        res=req.get(url.get_attribute('href'))
-        for w in words:
-            wordcount[w]+=res.text.count(w)
-            total+=res.text.count(w)
+        try:
+            res=req.get(url.get_attribute('href'),verify=False)
+            for w in words:
+                wordcount[w]+=res.text.count(w)
+                total+=res.text.count(w)
+        except:
+            print(url.get_attribute('href'))
             
         data.append({
             'title': title.text, 

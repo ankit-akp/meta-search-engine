@@ -18,7 +18,7 @@ def stackoverflowSearch(query):
         for w in words:
             wordcount[w]=0
 
-        res=req.get(i['link'])
+        res=req.get(i['link'],verify=False)
         for w in words:
             wordcount[w]+=res.text.count(w)
             total+=res.text.count(w)
