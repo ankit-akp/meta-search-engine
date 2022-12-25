@@ -31,7 +31,7 @@ def googleSearch(query,driver):
         for i in words:
             wordcount[i]=0
         try:
-            res=req.get(url.get_attribute('href'),verify=False)
+            res=req.get(url.get_attribute('href'),verify=False,headers={"User-Agent":"Mozilla/5.0"})
             for w in words:
                 wordcount[w]+=res.text.count(w)
                 total+=res.text.count(w)

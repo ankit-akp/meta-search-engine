@@ -23,7 +23,7 @@ def googlenewsSearch(query,driver):
         for w in words:
             wordcount[w]=0
 
-        res=req.get(url,verify=False)
+        res=req.get(url,verify=False,headers={"User-Agent":"Mozilla/5.0"})
         for w in words:
             wordcount[w]+=res.text.count(w)
             total+=res.text.count(w)
