@@ -19,14 +19,16 @@ def googlenewsSearch(query,driver):
         ## Keyword count
         words=query.split()
         wordcount={}
+        total=0
         for w in words:
             wordcount[w]=0
 
         res=req.get(url)
         for w in words:
             wordcount[w]+=res.text.count(w)
+            total+=res.text.count(w)
 
-        data.append({'url':url, 'title':title,'text':text,'wordcount':wordcount})
+        data.append({'url':url, 'title':title,'text':text,'wordcount':wordcount,'total':total})
 
 
     return jsonify({"results":data, "engine": "news"})

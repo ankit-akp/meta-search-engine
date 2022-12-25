@@ -27,19 +27,20 @@ def googleSearch(query,driver):
         ## Keyword count
         words=query.split()
         wordcount={}
+        total=0
         for i in words:
             wordcount[i]=0
 
         res=req.get(url.get_attribute('href'))
         for w in words:
             wordcount[w]+=res.text.count(w)
+            total+=res.text.count(w)
             
         data.append({
             'title': title.text, 
             'url': url.get_attribute('href'), 
             'text': '' if text is None else text.text,
-            'wordcount':wordcount
+            'wordcount':wordcount,
+            'total':total
         })
-
-
     return jsonify({"results":data, "engine": "google"})

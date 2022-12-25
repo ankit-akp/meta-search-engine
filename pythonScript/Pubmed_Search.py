@@ -24,12 +24,15 @@ def PubmedSearch(query):
             ## Keyword count
             words=query.split()
             wordcount={}
+            total=0
             for w in words:
                 wordcount[w]=0
 
             res=req.get(url)
             for w in words:
                 wordcount[w]+=res.text.count(w)
-            results.append({'url':url,'title':title,'text':text,'wordcount':wordcount})
+                total+=res.text.count(w)
+                
+            results.append({'url':url,'title':title,'text':text,'wordcount':wordcount,'total':total})
 
     return jsonify({'results':results, "engine": "pubmed"})
