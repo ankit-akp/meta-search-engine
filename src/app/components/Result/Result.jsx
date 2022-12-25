@@ -11,7 +11,8 @@ const Result = () => {
   const [result, setResult] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchtab, setSearchtab] = useState({
-    Common: true,
+    All: true,
+    Common: false,
     google: false,
     yahoo: false,
     stackoverflow: false,
@@ -53,31 +54,41 @@ const Result = () => {
 
   const setCommonResult = async () => {
     let newResult = await fetchResults();
-    console.log(newResult);
     let urlFreq = {};
 
     Object.keys(newResult).forEach((res) => {
       newResult[res].forEach((ele) => {
-        if (!(ele.url in urlFreq)) urlFreq[ele.url] = [1, ele];
-        else urlFreq[ele.url][0]++;
+        if(!(ele.url in urlFreq))
+          urlFreq[ele.url] = [1, ele];
+        else 
+          urlFreq[ele.url][0]++;
       });
     });
 
     let commonResult = [];
+    let allResult = [];
 
-    for (var url in urlFreq)
+    for (var url in urlFreq){
+      allResult.push([urlFreq[url][0]*urlFreq[url][1].total, { ...urlFreq[url][1] }])
       if (urlFreq[url][0] !== 1) {
         commonResult.push([urlFreq[url][0], { ...urlFreq[url][1] }]);
       }
+    }
+
     commonResult.sort((a, b) => b[0] - a[0]);
+    allResult.sort((a, b) => b[0] - a[0]);
+    
     commonResult = commonResult.map((res) => {
       res[1].title += ` - [${res[0]}]`;
       return res[1];
     });
+    allResult = allResult.map((res) => res[1]);
 
     if (commonResult.length > 0)
-      setResult({ Common: commonResult, ...newResult });
-    else setResult(newResult);
+      setResult({ All: allResult, Common: commonResult, ...newResult });
+    else 
+      setResult(newResult);
+    console.log(allResult);
     setLoading(false);
   };
 
@@ -100,7 +111,7 @@ const Result = () => {
       )}
 
       <SearchContext.Provider value={{ searchtab, setSearchtab }}>
-        <div className="bg-light min-vh-100">
+        <div className="bg-light min-vh-100 py-1">
           <div className="container">
             <NavTabs tabs={Object.keys(result)}></NavTabs>
             {Object.keys(result).map(
